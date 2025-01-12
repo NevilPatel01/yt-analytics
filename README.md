@@ -4,15 +4,21 @@ This Next.js application allows users to analyze YouTube playlists, displaying v
 
 ## Setup
 
-1. Clone the repository
+1. Clone the repository:
+  ```bash
+  https://github.com/NevilPatel01/yt-analytics.git
+  ```
+
 2. Install dependencies:
    ```bash
    npm install
    ```
+
 3. Install shadcn/ui components:
    ```bash
    npx shadcn-ui@latest init
    ```
+   
 4. Add required components:
    ```bash
    npx shadcn-ui@latest add button input card
