@@ -19,7 +19,12 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
+import Image from "next/image";
+
 
 interface VideoData {
   title: string;
@@ -27,10 +32,12 @@ interface VideoData {
   thumbnail: string;
 }
 
+
 interface GraphData {
   name: string;
   views: number;
 }
+
 
 export default function Home() {
   const [playlistUrl, setPlaylistUrl] = useState("");
@@ -43,6 +50,7 @@ export default function Home() {
     setIsLoading(true);
 
     try {
+      console.log('first');
       const response = await fetch("/api/scrape-playlist", {
         method: "POST",
         headers: {
@@ -50,15 +58,17 @@ export default function Home() {
         },
         body: JSON.stringify({ playlistUrl }),
       });
-
+      console.log('67');
       if (!response.ok) {
         throw new Error("Failed to fetch playlist data");
       }
-
+      console.log('71');
       const data = await response.json();
+      console.log(data)
       setVideoData(data.videoList);
       setGraphData(data.graphData);
     } catch (error) {
+      console.log('76');
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
@@ -113,10 +123,12 @@ export default function Home() {
                     <span className="font-bold text-lg min-w-[24px]">
                       {index + 1}.
                     </span>
-                    <img
+                    <Image
                       src={video.thumbnail}
-                      alt={video.title}
-                      className="w-24 h-auto"
+                      alt={"image"}
+                      className="rounded w-50 h-50"
+                      height={50}
+                      width={50}
                     />
                     <div>
                       <h3 className="font-semibold">{video.title}</h3>
@@ -130,12 +142,14 @@ export default function Home() {
             </CardContent>
           </Card>
 
+          {/* Graph Section */}
           <Card>
             <CardHeader>
-              <CardTitle>View Count Graph</CardTitle>
+              <CardTitle>Analytics</CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
+              {/* Line Chart */}
+              <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={graphData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
@@ -152,6 +166,30 @@ export default function Home() {
               </ResponsiveContainer>
             </CardContent>
           </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Views Distribution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart>
+                  <Pie
+                    data={graphData}
+                    dataKey="views"
+                    nameKey="name"
+                    outerRadius={120}
+                    fill="#8884d8"
+                  >
+                    {graphData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={`hsl(${(index / graphData.length) * 360}, 70%, 60%)`} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
         </div>
       )}
     </div>
