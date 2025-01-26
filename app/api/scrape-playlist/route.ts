@@ -35,6 +35,12 @@ export async function POST(request: NextRequest) {
   const dataset = await Dataset.open(`playlist-${uuid}`);
 
   const crawler = new PlaywrightCrawler({
+
+    // launchContext: {
+    //   launchOptions: {
+    //       headless: false,
+    //   },
+    // },
     maxRequestsPerCrawl: 50,
     async requestHandler({ request, page, log }) {
       log.info(`Processing ${request.url}...`);
