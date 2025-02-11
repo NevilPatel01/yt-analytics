@@ -2,6 +2,15 @@
 
 This Next.js application allows users to analyze YouTube playlists, displaying video information and a view count graph.
 
+---
+
+## Screenshots
+
+![YouTube Playlist Analyzer Interface](/assets/screenshot/image1.png)
+*Figure 1: User interface of the YouTube Playlist Analyzer showing playlist data and a view count graph.*
+
+---
+
 ## Setup
 
 1. Clone the repository:
@@ -24,11 +33,15 @@ This Next.js application allows users to analyze YouTube playlists, displaying v
    npx shadcn-ui@latest add button input card
    ```
 
+---
+
 ## Key Features
 
 - Server-side YouTube playlist scraping using Crawlee
 - Client-side playlist data visualization
 - Responsive design using Tailwind CSS
+
+---
 
 ## Important Files
 
@@ -36,28 +49,7 @@ This Next.js application allows users to analyze YouTube playlists, displaying v
 - `app/api/scrape-playlist/route.ts`: API route for playlist scraping
 - `next.config.js`: Next.js configuration
 
-## Crawlee and Next.js Configuration
-
-To make Crawlee work with Next.js, we use a custom webpack configuration in `next.config.js`:
-
-```javascript
-const nextConfig = {
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.externals.push(
-        "crawlee",
-        "puppeteer",
-        "playwright",
-        "puppeteer-core",
-        "playwright-core"
-      );
-    }
-    return config;
-  },
-};
-```
-
-This configuration externalizes Crawlee and related packages on the server-side to prevent build issues.
+---
 
 ## UUID Strategy
 
@@ -69,6 +61,8 @@ To prevent Crawlee from caching requests, we use a UUID for each scraping operat
 
 This ensures that each scraping operation is treated as unique, even for the same playlist URL.
 
+---
+
 ## Caveats and Notes
 
 1. The app requires a server environment capable of running Playwright for scraping.
@@ -76,6 +70,8 @@ This ensures that each scraping operation is treated as unique, even for the sam
 3. The scraping process may take some time for large playlists.
 4. Be mindful of YouTube's terms of service when using this app.
 5. The app uses shadcn/ui components, which are built on top of Tailwind CSS. Make sure Tailwind is properly configured in your project.
+
+---
 
 ## Development
 
@@ -86,6 +82,8 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
 
 ## Deployment
 
